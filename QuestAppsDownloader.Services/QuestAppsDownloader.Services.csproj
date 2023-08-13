@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="7.0.10" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.1" />
+    <PackageReference Include="RcloneWrapper" Version="1.60.0.9" />
+    <PackageReference Include="SharpCompress" Version="0.33.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\QuestAppsDownloader.DTO\QuestAppsDownloader.DTO.csproj" />
+  </ItemGroup>
+
+</Project>
