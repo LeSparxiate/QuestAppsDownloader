@@ -1,6 +1,6 @@
 ﻿namespace QuestAppsDownloader.Services.Configurations;
 
-public class CloudStorageConfiguration
+public class VRPPublicConfiguration
 {
     public string Url { get; set; }
 }

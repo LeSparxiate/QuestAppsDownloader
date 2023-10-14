@@ -1,18 +1,22 @@
-﻿using QuestAppsDownloader.Services.Implementations.Tools;
+﻿using System.Data;
+using QuestAppsDownloader.DTO.DTOs;
+using QuestAppsDownloader.Services.Implementations.Tools;
+using QuestAppsDownloader.Services.Interfaces.Proxy;
 using QuestAppsDownloader.Services.Interfaces.Services;
-using System.Data;
 
 namespace QuestAppsDownloader.Controllers;
 
 public class MainWindowController
 {
     private readonly IRcloneService _rcloneService;
+    private readonly IVRPProxy _vrpProxy;
 
     public DataTable Metadata { get; set; }
 
-    public MainWindowController(IRcloneService rcloneService)
+    public MainWindowController(IRcloneService rcloneService, IVRPProxy vrpProxy)
     {
         _rcloneService = rcloneService;
+        _vrpProxy = vrpProxy;
     }
 
     public async Task SetupRclone()
@@ -20,9 +24,14 @@ public class MainWindowController
         await _rcloneService.SetupRclone();
     }
 
-    public async Task GetMetadata()
+    public Task<VRPPublic> SetupVRPPublic()
     {
-        await _rcloneService.SetupMetadata();
+        return _vrpProxy.GetVRPPublic();
+    }
+
+    public async Task GetMetadata(VRPPublic vrpPublic)
+    {
+        await _rcloneService.SetupMetadata(vrpPublic);
     }
 
     public void LoadMetadata()
@@ -30,8 +39,8 @@ public class MainWindowController
         Metadata = MetadataManager.LoadMetadata();
     }
 
-    public void DownloadGame(string releaseName)
+    public void DownloadGame(string releaseName, VRPPublic vrpPublic)
     {
-        _rcloneService.DownloadGame(releaseName);
+        _rcloneService.DownloadGame(releaseName, vrpPublic);
     }
 }

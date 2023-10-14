@@ -1,7 +1,7 @@
-﻿using QuestAppsDownloader.DTO.DTOs;
-using System.Data;
+﻿using System.Data;
 using System.Globalization;
 using System.Reflection;
+using QuestAppsDownloader.DTO.DTOs;
 
 namespace QuestAppsDownloader.Services.Implementations.Tools;
 

@@ -1,7 +1,7 @@
-﻿using SharpCompress.Archives.SevenZip;
+﻿using System.IO.Compression;
+using SharpCompress.Archives.SevenZip;
 using SharpCompress.Common;
 using SharpCompress.Readers;
-using System.IO.Compression;
 
 namespace QuestAppsDownloader.Services.Implementations.Tools;
 

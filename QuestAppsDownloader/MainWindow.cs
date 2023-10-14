@@ -1,8 +1,9 @@
-using QuestAppsDownloader.Controllers;
-using QuestAppsDownloader.Services.Implementations.Tools;
 using System.Data;
 using System.Diagnostics;
 using System.Reflection;
+using QuestAppsDownloader.Controllers;
+using QuestAppsDownloader.DTO.DTOs;
+using QuestAppsDownloader.Services.Implementations.Tools;
 
 namespace QuestAppsDownloader
 {
@@ -11,7 +12,9 @@ namespace QuestAppsDownloader
         private const string PicturesDirectory = "./metadata/.meta./thumbnails";
         private const string FilterRequest = "GameName LIKE '%{0}%' OR ReleaseName LIKE '%{0}%'";
 
-        private MainWindowController _mainWindowController;
+        private VRPPublic VrpPublic;
+
+        private readonly MainWindowController _mainWindowController;
 
         public MainWindow(MainWindowController mainWindowController)
         {
@@ -24,7 +27,8 @@ namespace QuestAppsDownloader
             Console.SetOut(new TextBoxWriter(ConsoleBox));
 
             await _mainWindowController.SetupRclone();
-            await _mainWindowController.GetMetadata();
+            VrpPublic = await _mainWindowController.SetupVRPPublic();
+            await _mainWindowController.GetMetadata(VrpPublic);
 
             _mainWindowController.LoadMetadata();
             GameList.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
@@ -40,7 +44,7 @@ namespace QuestAppsDownloader
         private void DownloadButton_Click(object sender, EventArgs e)
         {
             ConsoleBox.Text = string.Empty;
-            _mainWindowController.DownloadGame(GameList.Rows[GameList.SelectedRows[0].Index].Cells[1].Value.ToString());
+            _mainWindowController.DownloadGame(GameList.Rows[GameList.SelectedRows[0].Index].Cells[1].Value.ToString(), VrpPublic);
         }
 
         private void GameList_RowEnter(object sender, DataGridViewCellEventArgs e)
