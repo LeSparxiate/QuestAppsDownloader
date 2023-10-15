@@ -10,6 +10,9 @@ namespace QuestAppsDownloader
     {
         private const string PicturesDirectory = "./metadata/.meta./thumbnails";
         private const string FilterRequest = "GameName LIKE '%{0}%' OR ReleaseName LIKE '%{0}%'";
+        private const string ConnectedLabel = "Connected";
+        private const string NotConnectedLabel = "Not Connected";
+        private const string ErrorMessageAPKMissing = "You need to select an APK file first!\nPlease select one by using the \"Browse\" button and retry.";
 
         private VRPPublic VrpPublic;
 
@@ -84,6 +87,42 @@ namespace QuestAppsDownloader
         private void FilterButton_Click(object sender, EventArgs e)
         {
             (GameList.DataSource as DataTable).DefaultView.RowFilter = string.Format(FilterRequest, FilterBox.Text);
+        }
+
+        private void BrowseApk_Click(object sender, EventArgs e)
+        {
+            using (var openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.InitialDirectory = $"{Directory.GetCurrentDirectory()}\\downloads";
+                openFileDialog.Filter = "apk files (*.apk)|*.apk|All files (*.*)|*.*";
+                openFileDialog.FilterIndex = 1;
+                openFileDialog.RestoreDirectory = true;
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                    ApkPathTextbox.Text = openFileDialog.FileName;
+            }
+        }
+
+        private void AutoDetectButton_Click(object sender, EventArgs e)
+        {
+            //if autodetect == success ? green : red
+            VRStatusLabel.Text = ConnectedLabel;
+            VRStatusLabel.ForeColor = Color.LightGreen;
+        }
+
+        private void ManualConnectButton_Click(object sender, EventArgs e)
+        {
+            //if manualconnection == success ? green : red
+            VRStatusLabel.Text = ConnectedLabel;
+            VRStatusLabel.ForeColor = Color.LightGreen;
+        }
+
+        private void StartSideloadButton_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(ApkPathTextbox.Text))
+                MessageBox.Show(ErrorMessageAPKMissing, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            //startsideload
         }
     }
 }
