@@ -1,33 +1,36 @@
-﻿using System.IO.Compression;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.IO.Compression;
+using QuestAppsDownloader.Services.Interfaces.Tools;
 using SharpCompress.Archives.SevenZip;
 using SharpCompress.Common;
 using SharpCompress.Readers;
 
 namespace QuestAppsDownloader.Services.Implementations.Tools;
 
-public class FileManager
+[ExcludeFromCodeCoverage]
+public class FileManager : IFileManager
 {
-    public static void CreateDirectory(string newDirectoryPath)
+    public void CreateDirectory(string newDirectoryPath)
     {
         Directory.CreateDirectory(newDirectoryPath);
     }
 
-    public static void DeleteDirectory(string directoryPath)
+    public void DeleteDirectory(string directoryPath)
     {
         Directory.Delete(directoryPath, true);
     }
 
-    public static bool FileExists(string filePath)
+    public bool FileExists(string filePath)
     {
         return File.Exists(filePath);
     }
 
-    public static void DeleteFile(string filePath)
+    public void DeleteFile(string filePath)
     {
         File.Delete(filePath);
     }
 
-    public static void UnzipArchive(string filePath, string outputDirectory)
+    public void UnzipArchive(string filePath, string outputDirectory)
     {
         if (FileExists(filePath))
         {
@@ -36,7 +39,7 @@ public class FileManager
         }
     }
 
-    public static void Unzip7zArchive(string filePath, string outputDirectory, string password = "")
+    public void Unzip7zArchive(string filePath, string outputDirectory, string password = "")
     {
         if (FileExists(filePath))
         {
@@ -56,12 +59,12 @@ public class FileManager
         }
     }
 
-    public static string GetFilePath(string directoryPath, string fileName)
+    public string GetFilePath(string directoryPath, string fileName)
     {
         return Directory.GetFiles(directoryPath, fileName, SearchOption.AllDirectories).FirstOrDefault();
     }
 
-    public static IList<string> GetFilesInDirectory(string directoryPath, string pattern)
+    public IList<string> GetFilesInDirectory(string directoryPath, string pattern)
     {
         return Directory.GetFiles(directoryPath, pattern, SearchOption.AllDirectories);
     }

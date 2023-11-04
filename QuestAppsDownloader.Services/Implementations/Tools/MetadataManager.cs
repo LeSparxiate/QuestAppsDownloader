@@ -1,10 +1,12 @@
 ﻿using System.Data;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
 using QuestAppsDownloader.DTO.DTOs;
 
 namespace QuestAppsDownloader.Services.Implementations.Tools;
 
+[ExcludeFromCodeCoverage]
 public class MetadataManager
 {
     private const string MetadataFileLocation = "./metadata/VRP-GameList.txt";

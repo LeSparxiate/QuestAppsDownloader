@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Reflection;
 using QuestAppsDownloader.Controllers;
 using QuestAppsDownloader.DTO.DTOs;
-using QuestAppsDownloader.Services.Implementations.Tools;
 
 namespace QuestAppsDownloader
 {
@@ -26,19 +25,26 @@ namespace QuestAppsDownloader
         {
             Console.SetOut(new TextBoxWriter(ConsoleBox));
 
-            await _mainWindowController.SetupRclone();
-            VrpPublic = await _mainWindowController.SetupVRPPublic();
-            await _mainWindowController.GetMetadata(VrpPublic);
+            try
+            {
+                await _mainWindowController.SetupRclone();
+                VrpPublic = await _mainWindowController.SetupVRPPublic();
+                await _mainWindowController.GetMetadata(VrpPublic);
 
-            _mainWindowController.LoadMetadata();
-            GameList.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
-            GameList.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
-            typeof(DataGridView).InvokeMember("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, null, GameList, new object[] { true });
-            GameList.DataSource = _mainWindowController.Metadata;
-            foreach (DataGridViewColumn column in GameList.Columns)
-                column.SortMode = DataGridViewColumnSortMode.Automatic;
+                _mainWindowController.LoadMetadata();
+                GameList.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+                GameList.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+                typeof(DataGridView).InvokeMember("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, null, GameList, new object[] { true });
+                GameList.DataSource = _mainWindowController.Metadata;
+                foreach (DataGridViewColumn column in GameList.Columns)
+                    column.SortMode = DataGridViewColumnSortMode.Automatic;
 
-            LoadingBar.Visible = false;
+                LoadingBar.Visible = false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void DownloadButton_Click(object sender, EventArgs e)
@@ -66,7 +72,7 @@ namespace QuestAppsDownloader
 
         private void CleanDownloadsButton_Click(object sender, EventArgs e)
         {
-            FileManager.DeleteDirectory("./downloads");
+            _mainWindowController.DeleteDirectory("./downloads");
         }
 
         private void ConsoleBox_TextChanged(object sender, EventArgs e)

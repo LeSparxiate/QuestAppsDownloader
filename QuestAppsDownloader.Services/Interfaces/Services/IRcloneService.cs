@@ -2,7 +2,7 @@
 
 namespace QuestAppsDownloader.Services.Interfaces.Services;
 
-public interface IRcloneService
+public interface IRCloneService
 {
     Task SetupRclone();
     Task SetupMetadata(VRPPublic vrpPublic);
