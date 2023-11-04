@@ -1,8 +1,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using QuestAppsDownloader.Controllers;
+using System.Diagnostics.CodeAnalysis;
 
 namespace QuestAppsDownloader;
 
+[ExcludeFromCodeCoverage]
 internal static class Program
 {
     [STAThread]

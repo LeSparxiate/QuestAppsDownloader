@@ -1,5 +1,8 @@
-﻿namespace QuestAppsDownloader.DTO.DTOs;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace QuestAppsDownloader.DTO.DTOs;
+
+[ExcludeFromCodeCoverage]
 public class Metadata
 {
     public string GameName { get; set; }

@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using QuestAppsDownloader.DTO.DTOs;
 using QuestAppsDownloader.Services.Configurations;
+using QuestAppsDownloader.Services.Exceptions;
 using QuestAppsDownloader.Services.Interfaces.Proxy;
 using QuestAppsDownloader.Services.Interfaces.Wrappers;
 
@@ -23,7 +24,8 @@ public class VRPProxy : IVRPProxy
         var request = new HttpRequestMessage(HttpMethod.Get, _vrpPublicConfiguration.Url);
         var response = await _httpWrapper.SendAsync(request);
 
-        response.EnsureSuccessStatusCode();
+        if (!response.IsSuccessStatusCode)
+            throw new SetupVrpPublicException(_vrpPublicConfiguration.Url);
 
         return JsonConvert.DeserializeObject<VRPPublic>(await response.Content.ReadAsStringAsync());
     }
