@@ -14,6 +14,7 @@ public class RCloneService : IRCloneService
 {
     private const string RcloneArchivePath = "./rclone.zip";
     private const string RcloneDirectoryPath = "./rclone";
+    private const string RcloneExecutable = "rclone.exe";
     private const string MetadataDirectoryPath = "./metadata";
     private const string MetadataArchive = "meta.7z";
     private const string DownloadsFolderPath = "./downloads";
@@ -37,15 +38,11 @@ public class RCloneService : IRCloneService
 
     public async Task SetupRclone()
     {
-        try
+        if (string.IsNullOrEmpty(_fileManager.GetFilePath(RcloneDirectoryPath, RcloneExecutable)))
         {
-            await _httpWrapper.DownloadFileAsync(_rcloneConfiguration.DownloadUrl, RcloneArchivePath);
+            await DownloadRclone();
             _fileManager.UnzipArchive(RcloneArchivePath, RcloneDirectoryPath);
             _fileManager.DeleteFile(RcloneArchivePath);
-        }
-        catch
-        {
-            throw new RCloneSetupException();
         }
     }
 
@@ -70,6 +67,25 @@ public class RCloneService : IRCloneService
         Console.WriteLine($"Extracting game, please wait...");
         _fileManager.Unzip7zArchive(files.First(), destinationDirectory, vrpPublic.GetDecodedPassword());
         Console.WriteLine($"Extraction complete!");
+    }
+
+    private async Task DownloadRclone()
+    {
+        try
+        {
+            await _httpWrapper.DownloadFileAsync(_rcloneConfiguration.DownloadUrl, RcloneArchivePath);
+        }
+        catch
+        {
+            try
+            {
+                await _httpWrapper.DownloadFileAsync(_rcloneConfiguration.AlternativeUrl, RcloneArchivePath);
+            }
+            catch
+            {
+                throw new RCloneSetupException();
+            }
+        }
     }
 
     private static string ConvertReleaseNameToMD5(string releaseName)
