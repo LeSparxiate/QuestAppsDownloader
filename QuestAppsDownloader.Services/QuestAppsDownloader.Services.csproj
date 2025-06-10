@@ -1,16 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="7.0.12" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="9.0.6" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.6" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="RcloneWrapper" Version="1.60.0.9" />
-    <PackageReference Include="SharpCompress" Version="0.34.1" />
+    <PackageReference Include="RcloneWrapper" Version="1.60.0.12" />
+    <PackageReference Include="SharpCompress" Version="0.40.0" />
   </ItemGroup>
 
   <ItemGroup>

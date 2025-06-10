@@ -45,13 +45,20 @@ public class FileManager : IFileManager
         {
             CreateDirectory(outputDirectory);
 
-            var archive = SevenZipArchive.Open(filePath, readerOptions: new SharpCompress.Readers.ReaderOptions { Password = password });
+            var archive = SevenZipArchive.Open(filePath, readerOptions: new ReaderOptions { Password = password });
 
             var reader = archive.ExtractAllEntries();
             while (reader.MoveToNextEntry())
             {
-                if (!reader.Entry.IsDirectory)
-                    reader.WriteEntryToDirectory(outputDirectory, new ExtractionOptions { ExtractFullPath = true, Overwrite = true });
+                try
+                {
+                    if (!reader.Entry.IsDirectory)
+                        reader.WriteEntryToDirectory(outputDirectory, new ExtractionOptions { ExtractFullPath = true, Overwrite = true });
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"An error occured when extracting some file : {ex.Message}");
+                }
             }
 
             reader.Dispose();
@@ -61,6 +68,7 @@ public class FileManager : IFileManager
 
     public string GetFilePath(string directoryPath, string fileName)
     {
+        CreateDirectory(directoryPath);
         return Directory.GetFiles(directoryPath, fileName, SearchOption.AllDirectories).FirstOrDefault();
     }
 
