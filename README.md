@@ -7,6 +7,8 @@
 
 ## Note
 
+/!\ Servers have been shut down - This tool doesn't work anymore /!\
+
 - I am in no way involved in hosting, endorsing, or distributing illegal content
 - I do not own or manage the servers used to host files, do not ask for updates or content
 - Based on AndroidSideloader/Rookie : https://github.com/nerdunit/androidsideloader, https://github.com/VRPirates/rookie
